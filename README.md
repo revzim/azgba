@@ -54,7 +54,7 @@
 * *However, If you use some google-fu and attempt to search `gba roms/bios`, you might find what you are looking for.*
 * If anyone is decent at frontend/css and would like to contribute to a better touch GUI design (buttons/screen/etc.), feel free because I am a terrible designer. 
 
-##### There is no GUI for easy account creation; however, I have provided a reference with examples within `core/api/examples.txt` with simple PUT/GET requests.
+##### There is no GUI for easy account creation; however, I have provided a reference with examples within `core/api/examples.txt` with simple POST/GET requests.
 
 ## Author
   * andy zimmelman
