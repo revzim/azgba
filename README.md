@@ -9,6 +9,11 @@
 ## creator/developer:
   * andy zimmelman
 
+## Images (PC)
+![Login](https://i.imgur.com/Gno5h9T.png) 
+![Loaded Cloud Save](https://i.imgur.com/WPKbXMD.png)
+![Playing](https://i.imgur.com/ZxB65kV.png)
+
 ## Requirements & Dependencies 
 * [Golang](https://golang.org)
 * [AZGBA CORE](https://github.com/revzim/azgba-cloudsaves)
@@ -42,10 +47,6 @@
     * P - PLAY/PAUSE
     * R - RESTART EMU
 
-## Images (PC)
-![Login](https://i.imgur.com/Gno5h9T.png) 
-![Loaded Cloud Save](https://i.imgur.com/WPKbXMD.png)
-![Playing](https://i.imgur.com/ZxB65kV.png)
 
 ##### *Disclaimer*
 * Have not touched this project in a bit, but wanted to upload it for others to use.
