@@ -1,12 +1,17 @@
 ## AZGBA
 
-### Simple Golang GBA webserver application implementing cloud saves for `play from where you left off` functionality.
+[![Go Report Card](https://goreportcard.com/badge/github.com/revzim/gbapi)](https://goreportcard.com/report/github.com/revzim/gbapi)
+[![GoDoc](https://godoc.org/github.com/revzim/gbapi?status.svg)](https://godoc.org/github.com/revzim/gbapi)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/revzim/gbapi)](https://pkg.go.dev/github.com/revzim/gbapi)
 
-##### Play GBA games from anywhere.  With cloud saves, you can move from your phone, to your pc, to your tablet, and start exactly where you left off.
+## Project
+* Simple Golang GBA webserver application implementing cloud saves for `play from where you left off` functionality.
 
-##### Works in any browser (Firefox/Google Chrome/Safari/Opera/etc.) on any platform (iOS/Android/Windows/Linux/Mac/etc.). 
+* Play GBA games from anywhere.  With cloud saves, you can move from your phone, to your pc, to your tablet, and start exactly where you left off.
 
-## creator/developer:
+* Works in any browser (Firefox/Google Chrome/Safari/Opera/etc.) on any platform (iOS/Android/Windows/Linux/Mac/etc.). 
+
+## Creator/Developer:
   * andy zimmelman
 
 ## Images (PC)
