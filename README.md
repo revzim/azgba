@@ -9,9 +9,6 @@
 
 * Works in any browser (Firefox/Google Chrome/Safari/Opera/etc.) on any platform (iOS/Android/Windows/Linux/Mac/etc.). 
 
-## Creator/Developer:
-  * andy zimmelman
-
 ## Images (PC)
 ![Login](https://i.imgur.com/Gno5h9T.png) 
 ![Loaded Cloud Save](https://i.imgur.com/WPKbXMD.png)
@@ -58,6 +55,9 @@
 * If anyone is decent at frontend/css and would like to contribute to a better touch GUI design (buttons/screen/etc.), feel free because I am a terrible designer. 
 
 ##### There is no GUI for easy account creation; however, I have provided a reference with examples within `core/api/examples.txt` with simple PUT/GET requests.
+
+## Author
+  * andy zimmelman
 
 ## Languages/Libraries/Frameworks:
 * [MongoDB](https://www.mongodb.com/) `database`
