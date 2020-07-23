@@ -16,8 +16,8 @@
 
 ## Requirements & Dependencies 
 * [Golang](https://golang.org)
-* [AZGBA CORE](https://github.com/revzim/azgba-cloudsaves)
-* [AZGBA Cloud Save API](https://github.com/revzim/azgba-cloudsaves)
+* [AZGBA CORE](https://github.com/revzim/azgba)
+* [AZGBA Cloud Save API](https://github.com/revzim/gbapi)
 * Mongodb (db)
 
 ## Install (*MAKE SURE YOUR MONGO ENVIRONMENT IS SET UP*) :
