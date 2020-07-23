@@ -1,0 +1,201 @@
+/*
+|-----------------------------------------
+| Touch Controls
+|-----------------------------------------
+ */
+html {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    
+}
+
+.touch-controls{
+    display: flex;
+    padding: 0vw;
+    position: absolute;
+    left: 0%;
+    right: 0px;
+    width: 100%;
+    font-size: x-small;
+    /* background-color: rgb(139, 167, 18); */
+    border-radius: 50px;
+    
+}
+
+@media (orientation: landscape) {
+    .touch-controls {
+        top: 70%;
+        margin-left: 2.5%;
+    }
+    .touch-controls button{ 
+        width: 18vh;
+        height: 17vh;
+    }
+    #touch-up, #touch-down, #touch-left, #touch-right{
+        width: 18vh !important;
+        height: 15vh !important;
+    }
+    
+    #touch-left, #touch-right {
+        margin: 1vh 0;
+        width: 21vh !important;
+    }
+    .sm-touch {
+        width: 15vh !important;
+        height: 8vh !important;
+        /* border-radius: 0px !important; */
+    }
+
+    .triggers {
+        height: 8vh !important;
+        width: 20vh !important;
+        /* margin-left: 3vw; */
+        /* padding-bottom: 3vh; */
+        margin-bottom: 3vh;
+    }
+
+    .touch-buttons{
+        margin-left: 10%;
+    }
+
+    .r-trigger {
+        margin-left: 30%;
+    }
+
+    #touch-l {
+        margin-left: 3vh;  
+    }
+}
+
+@media (orientation: portrait) {
+    
+    .touch-controls button{
+        width: 18vw;
+        height: 17vw;
+    }
+    #touch-up, #touch-down, #touch-left, #touch-right{
+        width: 18vw !important;
+        height: 15vw !important;
+    }
+
+    #touch-left, #touch-right {
+        margin: 1vw 0;
+        width: 21vw !important;
+    }
+    .touch-buttons{
+        margin-right: 3vw;
+    }
+
+    .sm-touch {
+        width: 15vw !important;
+        height: 8vw !important;
+        /* border-radius: 0px !important; */
+    }
+
+
+    .triggers {
+        height: 8vw !important;
+        width: 20vw !important;
+        /* margin-left: 3vw; */
+        /* padding-bottom: 3vh; */
+        margin-bottom: 3vw;
+    }
+
+    #touch-l {
+        margin-left: 3vw;  
+    }
+}
+
+
+.touch-controls button{
+    font-family: sans-serif;
+    display: inline-block;
+    -webkit-appearance: none;
+    border:0;
+    outline: 0;
+    background: rgb(175, 174, 174);
+    opacity: 0.6;
+    
+    text-align: center;
+    cursor: pointer;
+    transition: .1s ease;
+    
+    /* margin:.06vw 0 !important; */
+    border-radius: 15px !important;
+    border: 1px solid black;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    
+}
+
+.touch-controls button:active{
+    transform: scale(0.95);
+    box-shadow: 0 0 15px 0 rgba(58, 57, 57, 0.5) inset;
+}
+
+.touch-dpad {
+    flex-grow: 1;    
+    text-align: center;
+    
+}
+
+.touch-buttons{
+    align-self: flex-end;
+}
+
+.touch-dpad{
+    padding-bottom: 10vh !important;
+    /* padding-left: 4vw !important; */
+}
+
+#touch-up, #touch-down, #touch-left, #touch-right{
+    flex-grow: 1;
+}
+
+
+.touch-buttons-ab {
+    padding-right: 5vw;
+}
+
+#touch-b {
+    margin-left: -10vw;
+}
+
+
+canvas {
+    margin: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    padding: 10px;
+    padding-bottom: 20px;
+    border-radius: 5%;
+    background-color: rgb(49, 49, 49);
+    cursor: none;
+    margin-bottom: 2.5vw;
+}
+canvas.textureSmooth {
+    image-rendering: auto;
+    image-rendering: optimizeQuality;
+    -ms-interpolation-mode: bicubic;
+}
+
+canvas.texturePixelated {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+}

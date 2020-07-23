@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html lang="en" style="">
+<head>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+   
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fa_all.css">
+    <link rel="stylesheet" type="text/css" href="/css/loginmodal.css">
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/req.js"></script>
+    {{html .GBA.FileNames }}
+    
+</head>
+<body class="text-light" id="mainBody" style="background-color: rgb(155, 188, 15) !important;">
+<div id="app" class="container text-light" v-bind:style="{'background-color': gbaColor}" style="touch-action: manipulation !important;" >
+    <div id="gba-app-body" class="container-fluid w-100" >
+        <div id="appHeader" class="" ><h3 >{{"{{"}} strings.header {{"}}"}}</h3></div>
+        
+        <div id="" class="form-signin text-light" style=""> 
+            
+            <!-- {{ range $key, $value := .Form.LoginVals }}
+            <div class="form-group" style="" v-show="!this.gamesPicker.show" >
+                <span class="container input-group-text" v-bind:style="{'background-color': gbaColor}"> <i class="fa fa-user"></i>
+                    <input style="" type="{{$value}}" class="form-control" id="form-input-{{$value}}" placeholder="{{$value}}" v-model="strings.{{$value}}" required autofocus>
+                </span>
+            </div>
+            {{end}} -->
+            <div id="gamesDOM" class="form-group" v-show="this.gamesPicker.show" :tabIndex=1>
+                
+                <span class="input-group-text  row" v-bind:style="{'background-color': gbaColor}"> 
+                    <i class="fa fa-align-justify"></i>
+                    <div class="container alert-success">{{"{{"}} selectedGame.val {{"}}"}}</div>
+                    
+                    <select  class="form-control col" id="gameChoice" v-model="selectedGame" @change="tryToLoadGame()">
+                        <option id="firstGameChoice" class="" disabled>{{.GBA.SelectedGameText}}</option>
+                    
+                        <option  v-bind:value="{key: key, val: val}" v-for="(val, key) in strings.games" lazy>{{"{{"}} val {{"}}"}}</option>
+                    
+                    </select>
+                    
+                </span>
+        
+            </div>
+            <!-- <div class="container-fluid">
+                <button type="submit" class="text-center btn btn-outline-secondary btn-block w-50" v-on:click="validateForm" v-show="showSubmitBtn">{{"{{"}} this.btnSubmitStr {{"}}"}}</button>
+            </div> -->
+        </div>
+        <div class="btn-group" role="group" >
+            <button class="btn btn-success" id="play" onclick="app.startGame()" v-show="GBA.settings.gbaFullyLoaded">{{"{{"}} strings.gbaPlayBtn {{"}}"}}</button>
+            <button class="btn btn-primary" id="saveBtn" v-show="showSave" onclick="app.saveGame()">{{"{{"}} strings.savesBtn {{"}}"}}</button>
+                    
+            <!-- <div class="input-group"  v-show="showLoadSaveBtn">
+                <div class="input-group-prepend">
+                    <button class="btn btn-sm btn-outline-secondary" id="saveBtn" v-show="showSave" onclick="app.saveGame()">{{"{{"}} strings.savesBtn {{"}}"}}</button>
+                    
+                </div>
+                <div class="custom-file">
+                    <input class="custom-file-input" accept=".export" id="userSaveFile" type="file" @change="app.loadSave()">
+                    <label class="custom-file-label" for="userSaveFile">{{"{{"}} strings.loadSaveBtn {{"}}"}}</label>
+                </div>
+                <div class="input-group-append" v-show="showSaveDLBtn">
+                    <a class="btn btn-sm btn-outline-secondary" id="saveDLBtn" onclick="app.downloadSave()">{{"{{"}} strings.saveDLBtn {{"}}"}}</a>
+                </div>
+            </div>
+             -->
+            
+        </div>
+        
+        <!--
+            <div class="row">
+                <button class="col btn btn-sm  btn-outline-secondary col" id="saveBtn" v-show="showSave" onclick="app.saveGame()">{{"{{"}} strings.savesBtn {{"}}"}}</button>
+                <a class="col btn btn-sm btn-outline-secondary col" id="saveDLBtn" v-show="showSaveDLBtn" onclick="app.downloadSave()">{{"{{"}} strings.saveDLBtn {{"}}"}}</a>
+                <button class="col btn btn-sm  btn-outline-secondary" id="loadSaveBtn" v-show="showLoadSaveBtn" >
+                    {{"{{"}} strings.loadSaveBtn {{"}}"}}<input accept=".export" id="userSaveFile" type="file" @change="app.loadSave()"></button>
+            </div>
+        -->
+        <div class="alert alert-dismissible" v-bind:class="color" id="mainAlert" v-show="">
+            <!-- <button type="button" class="close" data-dismiss="alert" onclick="app.toggleAlertShow('false')">×</button> -->
+            <p id="mainAlert_String"><strong> {{"{{"}} mainAlertMsg {{"}}"}}</strong></p>
+            <div id="submitSpinner" class="" v-show="submitSpinner.show">
+                <div class="spinner-grow text-secondary"></div>
+                <div class="spinner-grow text-success"></div>
+                <div class="spinner-grow text-info"></div>
+                <div class="spinner-grow text-warning"></div>
+                <div class="spinner-grow text-danger"></div>
+            </div>
+        </div>
+        <div id="gbaBody" class="" style="display:none;"></div> 
+
+        
+    </div>
+    <!-- MODAL COMPONENT -->
+    <script type="text/x-template" id="modal-template">
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container bg-dark unselectable">
+                <div class="modal-header">
+                  <slot name="header">
+                      
+                    <div id="appHeader" class="" >
+                        <h3 >{{"{{"}} strings.header {{"}}"}}</h3>
+                        <h6 v-show="app.reAuthNeeded">{{"{{"}} strings.needReAuthStr {{"}}"}}</h6>
+                    </div>
+                    
+                  </slot>
+                </div>
+  
+                <div class="modal-body">
+                    <div class="alert alert-dismissible alert-danger" v-show="app.loginAlert.show">
+                        <button type="button" class="close" data-dismiss="alert" onclick="app.toggleModalAlert()">×</button>
+                        <h6 id=""><strong>{{"{{"}} strings.loginAlertStr {{"}}"}}</strong></h6>
+                        <div id="submitSpinner" class="" v-show="app.loginAlert.show">
+                            <div class="spinner-grow text-danger"></div>
+                            <div class="spinner-grow text-danger"></div>
+                            <div class="spinner-grow text-danger"></div>
+                        </div>
+                    </div>
+                  <slot name="body">
+                    
+                    <form id="loginForm" class="form-signin text-light needs-validation " style="" > 
+                        {{ range $key, $value := .Form.LoginVals }}
+                        <div class="form-group" style="" >
+                            <span class="container input-group-text" > <i class="fa fa-user"></i>
+                                <input style="" type="{{$value}}" class="form-control" id="form-input-{{$value}}" placeholder="{{$value}}" v-model="app.strings.{{$value}}" required autofocus>
+                            </span>
+                        </div>
+                        {{end}}
+                        <div class="modal-footer">
+                            <slot name="footer">
+                                <div class="container-fluid">
+                                    <button type="submit" id="modal-sbmt-btn" class="text-center btn btn-block w-100" v-on:click="app.validateForm" v-show="app.showSubmitBtn">{{"{{"}} btnSubmitStr {{"}}"}}</button>
+                                </div>
+                                <!-- <button class="modal-default-button" @click="app.toggleModal(false)">
+                                SIGNIN
+                                </button> -->
+                            </slot>
+                        </div>
+                    </form>
+                  </slot>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+    </script>
+    <modal v-if="showModal"></modal>
+</div>
+
+</body>
+</html>
+
+
+<script>
+    Vue.component("modal", {
+        template: "#modal-template"
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            showModal: false,
+            mainAlertMsg: "",
+            reAuthNeeded: false,
+            strings: {
+                header: "LOGIN",
+                gbaPlayBtn: "Loading...",
+                savesBtn: "SYNC GBA SAVE W/ CLOUD",
+                saveDLBtn: "DOWNLOAD",
+                loadSaveBtn: "LOAD SAVE",
+                saveOptions: "SAVE OPTIONS",
+                username: "",
+                email: "",
+                password: "",
+                token: "",
+                biosURL: JSON.parse(`{{.GBA.BIOSURL}}`),
+                modalMsg: "",
+                loginAlertStr: "INCORRECT USERNAME OR PASSWORD!",
+                needReAuthStr: "TOKEN EXPIRED! PLEASE, RE-LOGIN!",
+            },
+            color: "",
+            submitSpinner: {
+                show: false,
+            },
+            loginAlert: {
+                show: false,
+            },
+            showSave: false,
+            showSaveDLBtn: false,
+            showLoadSaveBtn: false,
+            gamesPicker: {
+                show: false,
+            },
+            games: "",
+            selectedGame: {
+                key: "",
+                val: "",
+            },
+            gbaColor: "rgb(155, 188, 15)",
+            hashBlock: JSON.parse(`{{.Form.HashBlock}}`),
+            showSubmitBtn: true,
+            btnSubmitStr: JSON.parse(`{{.Form.BtnSubmitString}}`),
+        },
+        methods:{
+            validateForm: function(e) {
+                event.preventDefault();
+                event.stopPropagation();
+                //console.log(app.selectedGame)
+                // get all forms
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over and check validity
+                var attemptLogin = true
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                if (form.checkValidity() === false) {
+                    attemptLogin = false
+                }
+                form.classList.add('was-validated');
+                
+                if (attemptLogin ) {
+                    // app.login(e)
+                    GBA.azgbaCS.login(app.strings.email, app.strings.password, function(token){
+                        if (token) {
+                            // app.string.token = token
+                            // GBA.azgbaCS.token = token
+                            app.toggleModal(false)
+                            GBA.azgbaCS.getSaves(token)
+                            GBA.azgbaCS.getGames(token)
+                        }else {
+                            console.log("LOGIN FAILED!")
+                            app.loginAlert.show = true
+                            setTimeout(function(){
+                                app.loginAlert.show = false
+                            }, 2000)
+                            
+                        }
+                    })
+                    form.classList.remove("was-validated")
+                    form.classList.add('needs-validation')
+                }
+                }, false);
+                // if good to go and selected a game
+                if (attemptLogin && app.selectedGame.key != "" && app.strings.token != "") {
+                    app.checkToken()
+                }
+            },
+            startGame: function() {
+                GBA.settings.gbaFullyLoaded = false
+                let emu = GBA.getEmu()
+                emu.play();
+                // console.log(GBA.getEmu().IOCore.cartridge.name)
+                // console.log(GBA.GUI.gui.Iodine.Iodine.IOCore.cartridge.name)
+                // GBA.azgbaCS.hasCloudSave()
+                if (GBA.azgbaCS.hasCloudSave()) {
+                    console.log("HAS CLOUD SAVE!")
+                    try {
+                        GBA.attemptCloudLoad()
+                    } catch(error){
+                        console.log("ERR", error)
+                    }
+                }
+                
+                
+                app.showSave = true;
+                if (GBA.hasSave() == true) {
+                    app.showSaveDLBtn = true
+                } else {
+                    app.showSaveDLBtn = false
+                }
+                app.showLoadSaveBtn = true
+            },
+            downloadSave: function() {
+                GBA.findKey()
+            },
+            loadSave: function() {
+                let usf = document.getElementById("userSaveFile")
+                if (usf.files.length == 0 || usf.files.length > 1) {
+                    updateMainHeaderString("Need to choose a file!", "alert-danger")
+                    return
+                }
+                if (usf.files.length == 1) {
+                    console.log("IMPORT USER SAVE!")
+                    GBA.importUserSave(usf.files[0])
+                    app.showSaveDLBtn = true
+                }
+            },
+            saveGame: function() {
+                GBA.saveGame()
+                // GBA.attemptCloudLoad(GBA.azgbaCS.cloudSaves["SAVE_"+GBA.getEmu().IOCore.cartridge.name].save)
+                app.showSaveDLBtn = true
+            },
+            tryToLoadGame: function() {
+                // var dlBtn = document.getElementById("saveDLBtn")
+                // dlBtn.href = ""
+                // dlBtn.download = ""
+                app.showSave = false
+                app.showSaveDLBtn = false
+                app.showLoadSaveBtn = false
+                app.checkToken()
+            },
+            checkToken: function() {
+                GBA.settings.gbaFullyLoaded = false
+                var formData = new FormData()
+                formData.set("username", app.strings.username)
+                Get("/auth", app.strings.token, function(resp){
+                    let json = JSON.parse(JSON.stringify(resp))
+                    // console.log("checkToken: "+JSON.stringify(resp))
+                    if (json) {
+                        if (json["code"]) {
+                            if (String(json["code"])[0] === '4') {
+                                alert("Oops! Looks like your login token expired! The page will now refresh!")
+                                window.location.reload()
+                                // app.showSubmitBtn = true
+                                // app.reAuthNeeded = true
+                                // app.toggleModal(true)
+                                // app.toggleModal(true)
+                            }
+                        }
+                        if (json["status"]){
+                            // AUTH SUCCESSFUL, SET UP GAME
+                            if (json["status"] == 200) {
+                                console.log("Spinning up game, "+app.selectedGame.val+"...")
+                                app.setGBAGame(json["data"])
+                            }
+                        }
+                    }
+                })
+            },
+            toggleModal: function(b) {
+                this.showModal = b
+                // app.showSubmitBtn = b
+                // this.strings.modalMsg = "Oops! Looks like your authentication has expired! Please re-login to save your data to the cloud!"
+                document.getElementById("gba-app-body").style.filter = b ? "blur(1.5rem)" : ""
+            },
+            toggleModalAlert: function() {
+                app.loginAlert.show = false  
+            },
+            setGBAGame: function(data) {
+                document.getElementById("appHeader").style.display = "none";
+                updateMainHeaderString("Loading "+app.selectedGame.val+"...", "alert-secondary")
+                document.getElementById("gbaBody").innerHTML = data
+                document.getElementById("gbaBody").style.display = "block"
+                if (!GBA.emulatorHandlersInit) {
+                    GBA.initEmulatorHandlers()
+                }
+                
+                SGet(app.strings.biosURL, app.strings.token, function(r) {
+                    GBA.GUI.fileLoadShimCode(r, GBA.GUI.attachBIOS(r))
+                    SGet("/auth/files/roms/"+app.selectedGame.key+".gba", app.strings.token, function(gameDL) {
+                        GBA.GUI.fileLoadShimCode(gameDL, GBA.GUI.attachROM(gameDL))
+
+                        GBA.GUI.resizeCanvas(GBA.GUI.isLandscape())
+                        if (!GBA.emulatorHandlersInit) {
+                            let children = document.getElementById("touchControls").getElementsByTagName("button")
+                            GBA.GUI.gamepad.initKeybinds(children)
+                            app.strings.gbaPlayBtn = "PLAY!"
+                            GBA.settings.gbaFullyLoaded = true
+                        }
+                    })
+                })
+            },
+            toggleTouchControls: function(b) {
+                let tcs = document.getElementById("touchControls")
+                if (!b) {
+                    tcs.style.display = "none";
+                    return
+                } 
+                // console.log(tcs.getElementsByTagName("button"))
+                tcs.style.display = "inline-flex";
+                let children = tcs.getElementsByTagName("button")
+                GBA.GUI.adjustCSS(tcs)
+            },
+            toggleAlertVals: function(code, b) {
+                var msg;
+                var htmlstr;
+                var color;
+                if (code == 200) {
+                    msg="Login accepted. Token expires in {{.TokenExpTime}}s.\nPlease select a game..."
+                    color = "alert-success"
+                } else {
+                    msg="AUTHENTICATION FAILED!"
+                    color = "alert-danger"
+                    app.btnSubmitStr = "SUBMIT"
+                }
+                updateMainHeaderString(msg, color)
+            },            
+        },
+        created: function(){
+            
+        },
+        mounted() {
+            this.toggleModal(true)
+        },
+    
+    })
+
+
+    function updateMainHeaderString(text, color) {
+        if (GBA.GUI.gui.GUITimerID) {
+            clearTimeout(GBA.GUI.gui.GUITimerID);
+        }
+        document.getElementById("mainAlert").style.display = "block";
+        app.mainAlertMsg = text
+        document.getElementById("mainAlert").classList.add("alert-success")
+        app.submitSpinner.show = true
+        if (!color) {
+            color = "alert-secondary"
+        }
+        app.color = color
+        GBA.GUI.gui.GUITimerID = setTimeout(clearMainAlert, 2500);
+    }
+    function clearMainAlert(el) {
+        document.getElementById("mainAlert").style.display = "none";
+        app.mainAlertMsg = ""
+        document.getElementById("mainAlert").classList.remove("alert-success")
+        app.submitSpinner.show = false
+        app.color = ""
+    }
+
+    // HACKY WAY TO DISABLE TAP TO ZOOM
+    document.getElementById("app").addEventListener("click", event => {});
+
+</script>
