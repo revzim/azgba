@@ -27,6 +27,9 @@
   * Golang 1.11> for GOMOMODULES
 * $GOPATH/azgba => ```go run main.go :8080 ```
 * $GOPATH/gbapi => ```go run main.go``` 
+* WHERE TO PLACE BIOS & ROMS
+  * GBA BIOS ``` private/bios ```
+  * GBA ROMS ``` private/roms ```
 
 ## How To
 * GBA CONTROLS
